@@ -1,6 +1,10 @@
 const app = require("express")();
 const bodyParser = require("body-parser");
+const cors = require("cors");
 const port = process.env.PORT || 8888;
+
+app.use(cors());
+
 require("./v1/models/db");
 app.use(bodyParser.json());
 
