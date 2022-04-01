@@ -1,5 +1,6 @@
 const bcrypt = require("bcryptjs");
 const UserModel = require("../models/user.model");
+const { createToken } = require("../helpers/token");
 class AuthCtrl {
   static useLogin(req, res) {
     const { email, password } = req.body;
@@ -14,6 +15,11 @@ class AuthCtrl {
           try {
             if (bcrypt.compareSync(password, result.password)) {
               // authentication is successful
+              const token = createToken({
+                id: result._id,
+                status: result.status,
+              });
+              res.set("x-token", token);
               res
                 .status(200)
                 .send({ data: result, message: "Login successful" });
