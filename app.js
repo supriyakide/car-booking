@@ -6,6 +6,10 @@ require("dotenv").config();
 const port = process.env.PORT || 8888;
 
 app.use(cors());
+app.use((req, res, next) => {
+  res.header("Access-Control-Expose-Headers", "x-token");
+  next();
+});
 
 require("./v1/models/db");
 app.use(bodyParser.json());
